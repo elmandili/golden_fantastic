@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>الرحلات</title>
+</head>
+
+<body>
+    <%- include('partials/nav-bar.ejs') %>
+        <main>
+            <section class="heading-section">
+                <h1>
+                    الرحلات
+                </h1>
+            </section>
+            <section>
+                <form action="/api/travel/create" method="post" id="travelForm">
+                    <button type="submit"><i class="fa-solid fa-plus"></i>أضف رحلة</button>
+                    <!-- <input type="submit" value="أضف رحلة"> -->
+                    <input required style="text-align: right;" type="date" name="date" id="date">
+                    <input required style="text-align: right;" type="text" name="supervisor" id="supervisor"
+                        placeholder="إسم المشرف">
+                </form>
+            </section>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>التاريخ</th>
+                        <th>المشرف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% travels.forEach(function(travel) { %>
+                        <tr id="row-<%= travel._id %>">
+                            <td >
+                                <button type="button" class="btn"
+                                    onclick="window.location.href = '/travelers/<%= travel._id %>'"><i class="fa-regular fa-user"></i> المسافرون</button>
+                                <button type="button" class="btn edit-btn"
+                                    onclick="editTravel('<%= travel._id %>')"><i class="fa-regular fa-pen-to-square"></i></button>
+                                <button type="button" class="btn confirm-btn" style="display:none;"
+                                    onclick="confirmEdit('<%= travel._id %>')"><i class="fa-regular fa-square-check"></i></button>
+                                <button type="button" class="btn del-btn"
+                                    onclick="deleteTravel('<%= travel._id %>')"><i class="fa-regular fa-trash-can"></i></button>
+                            </td>
+                            <td class="date" data-date="<%= new Date(travel.date).toISOString().slice(0, 10) %>">
+                                <%= new Date(travel.date).toISOString().slice(0, 10) %>
+                            </td>
+                            <td class="supervisor">
+                                <%= travel.supervisor %>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+
+        </main>
+
+</body>
+
+<script src="/js/travels.js"></script>
+
+<style>
+    table {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    table td,
+    table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+        width: 33%;
+    }
+
+    
+
+    table tr:hover {
+        background-color: #ddd;
+    }
+
+    table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: right;
+        background-color: #04AA6D;
+        color: white;
+    }
+</style>
+
+
+</html>

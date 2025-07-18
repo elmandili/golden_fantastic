@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/travelers.css">
+    <title>المسافرون</title>
+    <script>
+        window.travel_id = "<%= travel_id %>"
+        // console.log(window)
+
+    </script>
+
+</head>
+
+<body>
+    <%- include('partials/nav-bar.ejs') %>
+        <main>
+            <section class="heading-section">
+                <h1>
+                    المسافرون
+                </h1>
+            </section>
+            <% if(travel_id !="all" ) { %>
+                <section>
+                    <form method="post" id="travelerForm" enctype="multipart/form-data">
+                        <!-- <input type="submit" value="أضف مسافر"> -->
+                         <button type="submit"><i class="fa-solid fa-plus"></i>أضف مسافر</button>
+                        <input required style="text-align: right;" type="text" name="n_id" id="n_id"
+                            placeholder="رقم البطاقة الوطنية">
+                        <input required style="text-align: right;" type="text" name="name" id="name"
+                            placeholder="إسم المسافر">
+                        <input style="display: none;" type="file" name="image" id="image" accept="image/*">
+                        <label for="image"><i class="fa-solid fa-arrow-up-from-bracket"></i> إرفع صورة</label>
+                    </form>
+                </section>
+                <section class="travelers-print-section">
+                    <button type="button" id="toggle-preview-btn" class="btn">معاينة بطاقات التعريف</button>
+                    <button type="button" id="print-cards-btn" class="btn">طباعة بطاقات التعريف</button>
+                </section>
+                <% } %>
+
+
+                    <section id="preview-section" style="display:none;">
+                        <% travelers.forEach(function(traveler) { %>
+                            <div class="card">
+                                <div class="card-img">
+                                    <img src="<%= traveler.image %>" alt="Avatar"
+                                        style="height: 100%; max-width: 100%;">
+                                </div>
+
+                                <div class="card-container">
+                                    <h4><b>
+                                            <%= traveler.name %>
+                                        </b></h4>
+                                    <p>
+                                        <%= traveler.n_id %>
+                                    </p>
+                                </div>
+                            </div>
+                            <% }) %>
+                    </section>
+
+                    <section>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>رقم البطاقة الوطنية</th>
+                                    <th>الإسم</th>
+                                    <th>الصورة الشخصية</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% travelers.forEach(function(traveler, i) { %>
+                                    <tr id="row-<%= traveler._id %>" style="--i:<%= i %>">
+                                        <td>
+                                            <button type="button" class="btn"
+                                                onclick="editTravel('<%= traveler._id %>')"><i class="fa-regular fa-pen-to-square"></i></button>
+                                            <button type="button" class="btn" style="display:none;"
+                                                onclick="confirmEdit('<%= traveler._id %>')">تأكيد</button>
+                                            <button type="button" class="btn"
+                                                onclick="deleteTravel('<%= traveler._id %>')"><i class="fa-regular fa-trash-can"></i></button>
+                                        </td>
+                                        <td class="traveler_n_id">
+                                            <%= traveler.n_id %>
+                                        </td>
+
+                                        </td>
+                                        <td class="traveler_name">
+                                            <%= traveler.name %>
+                                        </td>
+                                        <td class="traveler_image">
+                                            <img src="<%= traveler.image %>" alt="img">
+                                        </td>
+                                    </tr>
+                                    <% if (traveler.image && traveler.image_content_type) { %>
+                                        <img src="data:<%= traveler.image_content_type %>;base64,<%= traveler.image.toString('base64') %>"
+                                            width="50" height="50" />
+                                        <% } %>
+                                            <% }); %>
+                            </tbody>
+
+                        </table>
+                    </section>
+
+
+        </main>
+
+        <script src="/js/travelers.js"></script>
+
+</body>
+
+<style>
+   
+    #preview-section {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        /* margin-bottom: 24px; */
+    }
+
+    .card {
+        width: 33%;
+        max-height: 320px;
+        margin: 0;
+        border: 1px dashed black;
+        overflow: hidden;
+        align-items: center;
+    }
+
+    .card-img {
+        height: 60%;
+        width: 80%;
+        margin: 0;
+        text-align: center;
+        align-self: center;
+        margin: auto;
+        padding-top: 20px;
+    }
+
+
+    /* Add some padding inside the card container */
+    .card-container {
+        padding: 2px 16px;
+        height: 40%;
+        margin: 0;
+        text-align: center;
+    }
+
+    
+
+    @media print {
+        body * {
+            visibility: hidden !important;
+        }
+
+
+
+        #preview-section,
+        #preview-section * {
+            visibility: visible !important;
+        }
+
+        #preview-section {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            background: white;
+            box-shadow: none;
+        }
+
+        /* Hide the heading specifically if needed */
+        main h1 {
+            display: none;
+        }
+    }
+</style>
+
+</html>

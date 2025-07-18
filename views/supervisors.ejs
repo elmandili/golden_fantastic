@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>المرافقون</title>
+</head>
+
+<body>
+    <%- include('partials/nav-bar.ejs') %>
+        <main>
+            <section class="heading-section">
+                <h1>المرافقون</h1>
+            </section>
+            
+            <form method="post" enctype="multipart/form-data" id="supervisorForm">
+                <button type="submit"><i class="fa-solid fa-plus"></i>أضف مرافق</button>
+                <!-- <input type="submit" value="أضف مرافق"> -->
+                <input type="text" name="n_id" id="supervisor_id" placeholder="ب.ت.و" required>
+                <input type="text" name="name" id="supervisor_name" placeholder="إسم المرافق" required>
+                <input name="image" type="file" id="upload-pic" style="display: none;" required>
+                <label for="upload-pic"><i class="fa-solid fa-arrow-up-from-bracket"></i> إرفع صورة</label>
+            </form>
+            <section>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+
+                            </th>
+                            <th>رقم البطاقة الوطنية</th>
+                            <th>الإسم</th>
+                            <th>الصورة الشخصية</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% supervisors.forEach(function(supervisor){ %>
+                            <tr id="row-<%= supervisor._id %>">
+                                <td>
+                                    <button class="edit-btn btn" type="button"
+                                    onclick="EditSupervisor('<%= supervisor._id %>')"><i class="fa-regular fa-pen-to-square"></i></button>
+                                    <button type="button" class="btn"
+                                    onclick="DeleteSupervisor('<%= supervisor._id %>')"><i class="fa-regular fa-trash-can"></i></button>
+                                    <button class="confirm-btn btn" type="button"
+                                    onclick="ConfirmEdit('<%= supervisor._id %>')"
+                                    style="display: none;"><i class="fa-regular fa-square-check"></i></button>
+                                </td>
+                                <td class="n_id">
+                                    <%= supervisor.n_id %>
+                                </td>
+                                <td class="name">
+                                    <%= supervisor.name %>
+                                </td>
+                                <td class="image">
+                                    <img src="<%= supervisor.image %>" alt="img">
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+
+            </section>
+        </main>
+        <script src="/js/supervisor.js"></script>
+</body>
+<style>
+    
+</style>
+
+</html>

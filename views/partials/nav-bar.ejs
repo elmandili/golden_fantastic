@@ -1,0 +1,43 @@
+<nav>
+  <script src="https://kit.fontawesome.com/ecb75cba71.js" crossorigin="anonymous"></script>
+  <a onclick="window.location.href = '/supervisors'">المرافقون</a>
+  <a onclick="window.location.href = '/travelers'">المسافرون</a>
+  <a onclick="window.location.href = '/travels'">الرحلات</a>
+</nav>
+
+<style>
+  
+  nav {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    background-color: #36374e;
+    justify-content: center;
+  }
+
+  a {
+    color: white;
+    text-align: center;
+    padding: 40px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 1s;
+  }
+
+  /* Change the link color to #111 (black) on hover */
+  a:hover {
+    background-color: #111111;
+    transition: 1s;
+  }
+
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>
