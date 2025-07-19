@@ -17,12 +17,14 @@
                 </h1>
             </section>
             <section>
-                <form action="/api/travel/create" method="post" id="travelForm">
+                <form class="container" action="/api/travel/create" method="post" id="travelForm">
+                    <input required type="text" name="supervisor" id="supervisor" placeholder="إسم المشرف">
+                    <input required type="date" name="dep_date" id="dep_date" placeholder="تاريخ الذهاب">
+                    <input required type="date" name="return_date" id="return_date" placeholder="تاريخ الإياب">
+                    <input type="text" name="makkah_hotel" id="makkah_hotel" placeholder="فندق المدينة">
+                    <input type="text" name="madina_hotel" id="madina_hotel" placeholder="فندق مكة">
                     <button type="submit"><i class="fa-solid fa-plus"></i>أضف رحلة</button>
-                    <!-- <input type="submit" value="أضف رحلة"> -->
-                    <input required style="text-align: right;" type="date" name="date" id="date">
-                    <input required style="text-align: right;" type="text" name="supervisor" id="supervisor"
-                        placeholder="إسم المشرف">
+
                 </form>
             </section>
 
@@ -30,31 +32,39 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th>التاريخ</th>
+                        <th>تاريخ الإياب</th>
+                        <th>تاريخ الذهاب</th>
                         <th>المشرف</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% travels.forEach(function(travel) { %>
                         <tr id="row-<%= travel._id %>">
-                            <td >
+                            <td>
                                 <button type="button" class="btn"
-                                    onclick="window.location.href = '/travelers/<%= travel._id %>'"><i class="fa-regular fa-user"></i> المسافرون</button>
-                                <button type="button" class="btn edit-btn"
-                                    onclick="editTravel('<%= travel._id %>')"><i class="fa-regular fa-pen-to-square"></i></button>
+                                    onclick="window.location.href = '/travelers/<%= travel._id %>'"><i
+                                        class="fa-regular fa-user"></i> المسافرون</button>
+                                <button type="button" class="btn edit-btn" onclick="editTravel('<%= travel._id %>')"><i
+                                        class="fa-regular fa-pen-to-square"></i></button>
                                 <button type="button" class="btn confirm-btn" style="display:none;"
-                                    onclick="confirmEdit('<%= travel._id %>')"><i class="fa-regular fa-square-check"></i></button>
-                                <button type="button" class="btn del-btn"
-                                    onclick="deleteTravel('<%= travel._id %>')"><i class="fa-regular fa-trash-can"></i></button>
+                                    onclick="confirmEdit('<%= travel._id %>')"><i
+                                        class="fa-regular fa-square-check"></i></button>
+                                <button type="button" class="btn del-btn" onclick="deleteTravel('<%= travel._id %>')"><i
+                                        class="fa-regular fa-trash-can"></i></button>
                             </td>
-                            <td class="date" data-date="<%= new Date(travel.date).toISOString().slice(0, 10) %>">
-                                <%= new Date(travel.date).toISOString().slice(0, 10) %>
+                            <td class="return_date"
+                                data-date="<%= new Date(travel.return_date).toISOString().slice(0, 10) %>">
+                                <%= new Date(travel.return_date).toISOString().slice(0, 10) %>
+                            </td>
+                            <td class="dep_date"
+                                data-date="<%= new Date(travel.dep_date).toISOString().slice(0, 10) %>">
+                                <%= new Date(travel.dep_date).toISOString().slice(0, 10) %>
                             </td>
                             <td class="supervisor">
                                 <%= travel.supervisor %>
                             </td>
                         </tr>
-                    <% }); %>
+                        <% }); %>
                 </tbody>
             </table>
 
@@ -75,10 +85,10 @@
     table th {
         border: 1px solid #ddd;
         padding: 8px;
-        width: 33%;
+        /* width: 33%; */
     }
 
-    
+
 
     table tr:hover {
         background-color: #ddd;

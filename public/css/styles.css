@@ -18,98 +18,54 @@ main .heading-section {
     font-size: xx-large;
 }
 
-
 main form {
-    display: flex;
-    justify-content: space-between;
+    margin: auto;
+    margin-bottom: 40px;
+    display: grid;
+    direction: rtl;
     gap: 10px;
+    grid-template-columns: auto auto auto;
+    /* background-color: #f2f2f2; */
+    padding: 10px;
     width: 80%;
-    margin: auto;
-    margin-bottom: 20px;
-    height: 50px;
+    
+    border-radius: 25px;
 }
 
 
-
-main form input[type="text"],
-main form input[type="date"],
-.edit-input
-{
-    /* height: 40px; */
-    width: 80%;
-    box-sizing: border-box;
+form input[type="text"], input[type="date"] {
+    height: 50px;
     border: none;
-    padding: 20px;
-    border-bottom: 2px solid red;
-    text-align: right;
+    border-bottom: solid 2px #36374e;
     background-color: rgba(0, 0, 0, 0);
-    transition: 0.5s;
-}
-main form input[type="text"]:hover,
-main form input[type="date"]:hover,
-.edit-input:hover {
-    width: 100%;
-    outline: none;
-    transition: 0.5s;
-}
-main form input[type="text"]:focus,
-main form input[type="date"]:focus,
-.edit-input:focus {
-    width: 100%;
-    outline: none;
-    font-size: large;
-    transition: 0.5s;
-}
-td {
-    height: 50px;
-}
-main form label, td label  {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    text-align: center;
     width: 80%;
-    height: 100%;
     margin: auto;
+    transition: 0.5s;
+}
+
+
+form button {
     background-color: #36374e;
     color: white;
+    width: 80%;
+    margin: auto;
     cursor: pointer;
     transition: 0.5s;
 }
-main form label:hover, td label:hover {
+form input:hover, form button:hover {
     width: 100%;
-    height: 100%;
     transition: 0.5s;
 }
 
-main form label i, td label i {
-    margin: 20px;
+form button i { 
+    margin: 10px;
 }
 
-main form button[type="submit"] {
-    box-sizing: border-box;
-    width: 100%;
-    border: none;
-    background-color: #36374e;
-    color: white;
-    padding: 0px 20px 0px 20px;
-    transition: 0.5s;
+
+td {
+    height: 50px;
 }
-
-main form button[type="submit"] i {
-    margin-right: 10px;
-}
-
-main form button[type="submit"]:hover {
-    width: 110%;
-    transition: 0.5s;
-}
-
-main form input[type="file"]{
-
-    border-bottom: 2px solid #36374e;
-    margin-bottom: 0;
-}
-
 
 
 table {

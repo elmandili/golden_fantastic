@@ -6,7 +6,7 @@ const travelSchema = new mongoose.Schema({
         required: true,
         default: "unkown supervisor"
     },
-    departure_date: {
+    dep_date: {
         type: Date,
         required: true
     },
@@ -14,10 +14,13 @@ const travelSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
-    travelers: {
-        type: Array,
-        required: true,
-        default: []
+    makkah_hotel: {
+        type: String,
+        required: true
+    },
+    madina_hotel: {
+        type: String,
+        required: true
     }
 })
 

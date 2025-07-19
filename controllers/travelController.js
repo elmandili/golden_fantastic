@@ -7,6 +7,7 @@ export const create = async (req,res)=>{
             return res.status(400).json("body is empty");
         }
 
+        console.log(req.body);
         const travelData = new Travel(req.body);
         const {supervisor} = travelData;
 
