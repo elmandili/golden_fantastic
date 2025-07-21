@@ -15,11 +15,27 @@ const travelerSchema = new mongoose.Schema({
     n_id: {
         type: String,
         required: true,
-        default: "AA000"
+        default: "no value"
+    },
+    passport_number: {
+        type: String,
+        require: true,
+        default: "no value"
+    },
+    makkah_hotel: {
+        type: String,
+        require: true,
+        default: "no value"
+    },
+    madina_hotel: {
+        type: String,
+        require: true,
+        default: "no value"
     },
     image: {
         type: String,
-        required: false
+        required: true,
+        default: ""
     }
 })
 

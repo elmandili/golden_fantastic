@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <title>الرحلات</title>
 </head>
 
@@ -18,13 +20,18 @@
             </section>
             <section>
                 <form class="container" action="/api/travel/create" method="post" id="travelForm">
+
                     <input required type="text" name="supervisor" id="supervisor" placeholder="إسم المشرف">
-                    <input required type="date" name="dep_date" id="dep_date" placeholder="تاريخ الذهاب">
-                    <input required type="date" name="return_date" id="return_date" placeholder="تاريخ الإياب">
+
+                    <input required type="datetime-local" name="dep_date" id="dep_date" placeholder="تاريخ الذهاب">
+                    <input required type="datetime-local" name="return_date" id="return_date" placeholder="تاريخ الإياب">
                     <input type="text" name="makkah_hotel" id="makkah_hotel" placeholder="فندق المدينة">
                     <input type="text" name="madina_hotel" id="madina_hotel" placeholder="فندق مكة">
                     <button type="submit"><i class="fa-solid fa-plus"></i>أضف رحلة</button>
-
+                    <script>
+                        flatpickr("#dep_date", {});
+                        flatpickr("#return_date", {});
+                    </script>
                 </form>
             </section>
 
@@ -32,6 +39,8 @@
                 <thead>
                     <tr>
                         <th></th>
+                        <th>فندق المدينة</th>
+                        <th>فندق مكة</th>
                         <th>تاريخ الإياب</th>
                         <th>تاريخ الذهاب</th>
                         <th>المشرف</th>
@@ -51,6 +60,12 @@
                                         class="fa-regular fa-square-check"></i></button>
                                 <button type="button" class="btn del-btn" onclick="deleteTravel('<%= travel._id %>')"><i
                                         class="fa-regular fa-trash-can"></i></button>
+                            </td>
+                            <td>
+                                <%= travel.madina_hotel %>
+                            </td>
+                            <td>
+                                <%= travel.makkah_hotel %>
                             </td>
                             <td class="return_date"
                                 data-date="<%= new Date(travel.return_date).toISOString().slice(0, 10) %>">

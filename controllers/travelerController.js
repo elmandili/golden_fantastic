@@ -4,7 +4,7 @@ import cloudinary from '../public/js/cloudinaryConfig.js';
 export const create = async (req, res) => {
     try {
         const travel_id = req.params.id;
-        const { n_id, name } = req.body;
+        const { n_id, name, passport_number, makkah_hotel, madina_hotel } = req.body;
 
         if (!n_id || !name) {
             return res.status(400).json({ message: "Missing required fields" });
@@ -44,11 +44,17 @@ export const create = async (req, res) => {
                 });
             }
         }
+        else {
+            imageUrl = "https://res.cloudinary.com/di7s8y6pm/image/upload/v1752938562/samples/people/profile_butbzc.png"
+        }
 
         const travelerData = new Traveler({
             n_id,
             name,
             travel_id,
+            passport_number,
+            makkah_hotel,
+            madina_hotel,
             image: imageUrl
         });
 

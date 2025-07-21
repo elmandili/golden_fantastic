@@ -16,12 +16,15 @@
             </section>
             
             <form method="post" enctype="multipart/form-data" id="supervisorForm">
+                <label for="upload-pic"><i class="fa-solid fa-arrow-up-from-bracket"></i> إرفع صورة</label>
+                <input name="image" type="file" id="upload-pic" style="display: none;" required>
+                <input type="text" name="name" id="supervisor_name" placeholder="إسم المرافق" required>
+                <input type="text" name="n_id" id="supervisor_id" placeholder="ب.ت.و" required>
+                <input type="text" name="passport_number" id="passport_number" placeholder="رقم جواز السفر" required>
+                <input type="tel" pattern="[0-9]{10}" placeholder="رقم الهاتف المغربي">
+                <div></div>
                 <button type="submit"><i class="fa-solid fa-plus"></i>أضف مرافق</button>
                 <!-- <input type="submit" value="أضف مرافق"> -->
-                <input type="text" name="n_id" id="supervisor_id" placeholder="ب.ت.و" required>
-                <input type="text" name="name" id="supervisor_name" placeholder="إسم المرافق" required>
-                <input name="image" type="file" id="upload-pic" style="display: none;" required>
-                <label for="upload-pic"><i class="fa-solid fa-arrow-up-from-bracket"></i> إرفع صورة</label>
             </form>
             <section>
                 <table>

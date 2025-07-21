@@ -26,14 +26,17 @@
             <% if(travel_id !="all" ) { %>
                 <section>
                     <form method="post" id="travelerForm" enctype="multipart/form-data">
-                        <!-- <input type="submit" value="أضف مسافر"> -->
-                         <button type="submit"><i class="fa-solid fa-plus"></i>أضف مسافر</button>
-                        <input required style="text-align: right;" type="text" name="n_id" id="n_id"
-                            placeholder="رقم البطاقة الوطنية">
-                        <input required style="text-align: right;" type="text" name="name" id="name"
-                            placeholder="إسم المسافر">
                         <input style="display: none;" type="file" name="image" id="image" accept="image/*">
                         <label for="image"><i class="fa-solid fa-arrow-up-from-bracket"></i> إرفع صورة</label>
+                        <input required type="text" name="name" id="name" placeholder="إسم المسافر">
+                        <input required type="text" name="n_id" id="n_id" placeholder="رقم البطاقة الوطنية">
+                        <input required type="text" name="passport_number" id="passport_number"
+                            placeholder="رقم جواز السفر">
+                        <input required type="text" name="makkah_hotel" id="makkah_hotel" placeholder="فندق المدينة"
+                            value="">
+                        <input required type="text" name="madina_hotel" id="madina_hotel" placeholder="فندق مكة"
+                            value="">
+                        <button type="submit"><i class="fa-solid fa-plus"></i>أضف مسافر</button>
                     </form>
                 </section>
                 <section class="travelers-print-section">
@@ -68,6 +71,9 @@
                             <thead>
                                 <tr>
                                     <th></th>
+                                    <th>madina hotel</th>
+                                    <th>makkah hotel</th>
+                                    <th>passport</th>
                                     <th>رقم البطاقة الوطنية</th>
                                     <th>الإسم</th>
                                     <th>الصورة الشخصية</th>
@@ -77,12 +83,23 @@
                                 <% travelers.forEach(function(traveler, i) { %>
                                     <tr id="row-<%= traveler._id %>" style="--i:<%= i %>">
                                         <td>
-                                            <button type="button" class="btn"
-                                                onclick="editTravel('<%= traveler._id %>')"><i class="fa-regular fa-pen-to-square"></i></button>
-                                            <button type="button" class="btn" style="display:none;"
+                                            <button type="button" class="btn edit-btn" 
+                                                onclick="editTravel('<%= traveler._id %>')"><i
+                                                    class="fa-regular fa-pen-to-square"></i></button>
+                                            <button type="button" class="btn confirm-btn" style="display:none;"
                                                 onclick="confirmEdit('<%= traveler._id %>')">تأكيد</button>
                                             <button type="button" class="btn"
-                                                onclick="deleteTravel('<%= traveler._id %>')"><i class="fa-regular fa-trash-can"></i></button>
+                                                onclick="deleteTravel('<%= traveler._id %>')"><i
+                                                    class="fa-regular fa-trash-can"></i></button>
+                                        </td>
+                                        <td class="madina_hotel">
+                                            <%= traveler.madina_hotel %>
+                                        </td>
+                                        <td class="makkah_hotel">
+                                            <%= traveler.makkah_hotel %>
+                                        </td>
+                                        <td class="passport_number">
+                                            <%= traveler.passport_number %>
                                         </td>
                                         <td class="traveler_n_id">
                                             <%= traveler.n_id %>
@@ -114,7 +131,6 @@
 </body>
 
 <style>
-   
     #preview-section {
         width: 100%;
         display: flex;
@@ -151,7 +167,7 @@
         text-align: center;
     }
 
-    
+
 
     @media print {
         body * {

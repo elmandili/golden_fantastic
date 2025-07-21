@@ -25,7 +25,6 @@ main form {
     direction: rtl;
     gap: 10px;
     grid-template-columns: auto auto auto;
-    /* background-color: #f2f2f2; */
     padding: 10px;
     width: 80%;
     
@@ -33,13 +32,14 @@ main form {
 }
 
 
-form input[type="text"], input[type="date"] {
+form input[type="text"], input[type="date"], input[type="tel"] {
     height: 50px;
+    font-size: larger;
     border: none;
     border-bottom: solid 2px #36374e;
     background-color: rgba(0, 0, 0, 0);
     text-align: center;
-    width: 80%;
+    width: 90%;
     margin: auto;
     transition: 0.5s;
 }
@@ -47,18 +47,38 @@ form input[type="text"], input[type="date"] {
 
 form button {
     background-color: #36374e;
+    height: 50px;
     color: white;
-    width: 80%;
-    margin: auto;
+    width: 90%;
+    font-size: larger;
+    margin: 0 auto 0 auto;
     cursor: pointer;
     transition: 0.5s;
 }
-form input:hover, form button:hover {
+form input:hover, form button:hover, form label:hover {
     width: 100%;
     transition: 0.5s;
 }
 
 form button i { 
+    margin: 10px;
+}
+
+form label {
+    height: 50px;
+    background-color: #36374e;
+    color: white;
+    width: 90%;
+    margin: 0 auto 0 auto;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: larger;
+    transition: 0.5s;
+}
+
+form label i {
     margin: 10px;
 }
 

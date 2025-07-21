@@ -44,12 +44,18 @@ function editTravel(id) {
     const nameCell = row.querySelector('.traveler_name');
     const idCell = row.querySelector('.traveler_n_id');
     const imageCell = row.querySelector('.traveler_image');
+    const passportCell = row.querySelector('.passport_number');
+    const makkahCell = row.querySelector('.makkah_hotel');
+    const madinaCell = row.querySelector('.madina_hotel');
     const editBtn = row.querySelector('.edit-btn');
     const confirmBtn = row.querySelector('.confirm-btn');
 
     // Replace text with input fields
     nameCell.innerHTML = `<input class="edit-input" type="text" value="${nameCell.textContent.trim()}" style="width:90%; text-align: right;">`;
     idCell.innerHTML = `<input class"edit-input" type="text" value="${idCell.textContent.trim()}" style="width:90%; text-align: right;">`;
+    passportCell.innerHTML = `<input class"edit-input" type="text" value="${passportCell.textContent.trim()}" style="width:90%; text-align: right;">`;
+    makkahCell.innerHTML = `<input class"edit-input" type="text" value="${makkahCell.textContent.trim()}" style="width:90%; text-align: right;">`;
+    madinaCell.innerHTML = `<input class"edit-input" type="text" value="${madinaCell.textContent.trim()}" style="width:90%; text-align: right;">`;
 
     // Add file input for image update
     imageCell.innerHTML = `
