@@ -14,6 +14,9 @@ import session from 'express-session'
 import passport from 'passport'
 import authRoutes from './routes/auth.js'
 import flash from 'connect-flash'
+import cors from 'cors'
+import helmet from 'helmet'
+import compression from 'compression'
 
 
 
@@ -22,6 +25,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+
+app.use(cors());
+app.use(helmet());        // Sets secure HTTP headers
+app.use(compression());  // Compress response bodies
+
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, 'public')))
 
@@ -33,9 +41,10 @@ console.log(process.env.PORT);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
-  secret: 'secret-key',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
+  cookie: { secure: process.env.NODE_ENV === 'production' }
 }));
 
 
@@ -53,7 +62,7 @@ function ensureAuthenticated(req, res, next) {
   res.redirect('/login');
 }
 
-app.get('/', (req, res) => {
+app.get('/',ensureAuthenticated, (req, res) => {
 	res.render('index', {user: req.user});
 })
 
