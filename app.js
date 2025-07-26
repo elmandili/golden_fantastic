@@ -27,7 +27,30 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 app.use(cors());
-app.use(helmet());        // Sets secure HTTP headers
+app.use(helmet({
+	contentSecurityPolicy: {
+		directives: {
+			defaultSrc: ["'self'"],
+			scriptSrc: [
+				"'self'",
+				"https://cdn.jsdelivr.net",
+				"https://kit.fontawesome.com",
+				"'unsafe-inline'", // only if you need inline scripts (optional but risky)
+				"blob:"
+			],
+			styleSrc: [
+				"'self'",
+				"https://cdn.jsdelivr.net",
+				"'unsafe-inline'"
+			],
+			scriptSrcAttr: ["'self'", "'unsafe-inline'"],
+			connectSrc: ["'self'"],
+			imgSrc: ["'self'", "data:"],
+			fontSrc: ["'self'", "https://fonts.googleapis.com", "https://fonts.gstatic.com", "https://cdn.jsdelivr.net"],
+			objectSrc: ["'none'"]
+		}
+	}
+}));
 app.use(compression());  // Compress response bodies
 
 app.set("view engine", "ejs");
@@ -42,14 +65,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('trust proxy', 1);
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'fallback',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: process.env.NODE_ENV === 'production', // 👈 must be true only in prod
-    httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24 // 1 day
-  }
+	secret: process.env.SESSION_SECRET || 'fallback',
+	resave: false,
+	saveUninitialized: false,
+	cookie: {
+		secure: process.env.NODE_ENV === 'production', // 👈 must be true only in prod
+		httpOnly: true,
+		maxAge: 1000 * 60 * 60 * 24 // 1 day
+	}
 }));
 
 
@@ -57,18 +80,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-app.use((req,res,next) => {
+app.use((req, res, next) => {
 	res.locals.error = req.flash('error');
 	next();
 });
 
 function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) return next();
-  res.redirect('/login');
+	if (req.isAuthenticated()) return next();
+	res.redirect('/login');
 }
 
-app.get('/',ensureAuthenticated, (req, res) => {
-	res.render('index', {user: req.user});
+app.get('/', ensureAuthenticated, (req, res) => {
+	res.render('index', { user: req.user });
 })
 
 app.use('/api/travel/', travelRoute);
@@ -85,7 +108,7 @@ app.listen(port, () => {
 
 mongoose.connect(process.env.MONGODB_URL).then(async () => {
 	console.log("mongodb connected");
-	
+
 }).catch(() => {
 	console.log("couldn't connect to mongodb!");
 })
