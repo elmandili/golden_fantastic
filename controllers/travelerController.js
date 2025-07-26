@@ -1,6 +1,8 @@
 import Traveler from '../models/travelerModel.js'
 import cloudinary from '../public/js/cloudinaryConfig.js';
 
+
+
 export const create = async (req, res) => {
     try {
         const travel_id = req.params.id;
@@ -35,7 +37,7 @@ export const create = async (req, res) => {
 
             try {
                 const result = await streamUpload(req.file.buffer);
-                imageUrl = result.secure_url;
+                req.body.image = result.secure_url;
             } catch (error) {
                 // Return the actual error message
                 return res.status(400).json({ 
@@ -45,18 +47,10 @@ export const create = async (req, res) => {
             }
         }
         else {
-            imageUrl = "https://res.cloudinary.com/di7s8y6pm/image/upload/v1752938562/samples/people/profile_butbzc.png"
+            req.body.image  = "https://res.cloudinary.com/di7s8y6pm/image/upload/v1752938562/samples/people/profile_butbzc.png"
         }
 
-        const travelerData = new Traveler({
-            n_id,
-            name,
-            travel_id,
-            passport_number,
-            makkah_hotel,
-            madina_hotel,
-            image: imageUrl
-        });
+        const travelerData = new Traveler({...req.body, travel_id});
 
         await travelerData.save();
         return res.status(200).json({ message: "Traveler created!" });
@@ -103,7 +97,7 @@ export const update = async (req, res) => {
 
             try {
                 const result = await streamUpload(req.file.buffer);
-                updateData.image = result.secure_url;
+                req.body.image = result.secure_url;
             } catch (error) {
                 return res.status(400).json({
                     message: "Cloudinary upload error",
@@ -112,7 +106,7 @@ export const update = async (req, res) => {
             }
         }
 
-        await Traveler.findByIdAndUpdate(id, updateData);
+        await Traveler.findByIdAndUpdate(id, req.body);
         return res.status(200).json("traveler updated");
     } catch (error) {
         return res.status(400).json("internal server error: " + error);

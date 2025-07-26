@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/travelers.css">
     <title>المسافرون</title>
     <script>
         window.travel_id = "<%= travel_id %>"
@@ -15,7 +14,7 @@
 
 </head>
 
-<body>
+<body id="body">
     <%- include('partials/nav-bar.ejs') %>
         <main>
             <section class="heading-section">
@@ -32,21 +31,57 @@
                         <input required type="text" name="n_id" id="n_id" placeholder="رقم البطاقة الوطنية">
                         <input required type="text" name="passport_number" id="passport_number"
                             placeholder="رقم جواز السفر">
-                        <input required type="text" name="makkah_hotel" id="makkah_hotel" placeholder="فندق المدينة"
-                            value="">
-                        <input required type="text" name="madina_hotel" id="madina_hotel" placeholder="فندق مكة"
-                            value="">
+                        <select name="makkah_hotel" id="makkah_hotel">
+                            <option value="<%= travel.madina_hotel %>">
+                                <%= travel.makkah_hotel %>
+                            </option>
+                            <% hotels.forEach(function(hotel){ %>
+                                <% if(hotel.hotel_city==='مكة' && hotel.hotel_name !=travel.makkah_hotel ) { %>
+                                    <option value="<%= hotel.hotel_name %>">
+                                        <%= hotel.hotel_name %>
+                                    </option>
+                                    <% } %>
+
+                                        <% }) %>
+                        </select>
+                        <select name="madina_hotel" id="madina_hotel">
+                            <option value="<%= travel.madina_hotel %>">
+                                <%= travel.madina_hotel %>
+                            </option>
+                            <% hotels.forEach(function(hotel){ %>
+                                <% if(hotel.hotel_city==='المدينة' && hotel.hotel_name !=travel.madina_hotel ) { %>
+                                    <option value="<%= hotel.hotel_name %>">
+                                        <%= hotel.hotel_name %>
+                                    </option>
+                                    <% } %>
+
+                                        <% }) %>
+                        </select>
+                        <select name="room_type" id="room_type">
+                            <option selected disabled value="سداسية">
+                                نوع الغرفة
+                            </option>
+                            <option value="سداسية">
+                                سداسية
+                            </option>
+                            <option value="رباعية">
+                                رباعية
+                            </option>
+                            <option value="ثنائية">
+                                ثنائية
+                            </option>
+                            <option value="فردية">
+                                فردية
+                            </option>
+                        </select>
                         <button type="submit"><i class="fa-solid fa-plus"></i>أضف مسافر</button>
                     </form>
                 </section>
-                <section class="travelers-print-section">
-                    <button type="button" id="toggle-preview-btn" class="btn">معاينة بطاقات التعريف</button>
-                    <button type="button" id="print-cards-btn" class="btn">طباعة بطاقات التعريف</button>
-                </section>
+
                 <% } %>
 
 
-                    <section id="preview-section" style="display:none;">
+                    <section id="preview-section" style="display: none;">
                         <% travelers.forEach(function(traveler) { %>
                             <div class="card">
                                 <div class="card-img">
@@ -55,73 +90,208 @@
                                 </div>
 
                                 <div class="card-container">
-                                    <h4><b>
-                                            <%= traveler.name %>
-                                        </b></h4>
-                                    <p>
-                                        <%= traveler.n_id %>
-                                    </p>
+                                    <table dir="rtl">
+                                        <tbody>
+                                            <tr style="height: 10px;">
+                                                <td>
+                                                    <p>إسم المسافر: </p>
+
+                                                </td>
+                                                <td>
+                                                    <p>
+                                                        <%= traveler.name %>
+                                                    </p>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    رقم جواز السفر:
+                                                </td>
+                                                <td>
+                                                    <h4><b>
+                                                            <%= traveler.passport_number %>
+                                                        </b>
+                                                    </h4>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    فندق مكة المكرمة:
+                                                </td>
+                                                <td>
+                                                    <h4><b>
+                                                            <%= traveler.makkah_hotel %>
+                                                        </b>
+                                                    </h4>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    فندق المدينة المنورة:
+                                                </td>
+                                                <td>
+                                                    <h4><b>
+                                                            <%= traveler.madina_hotel %>
+                                                        </b>
+                                                    </h4>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    إسم المشرف:
+                                                </td>
+                                                <td>
+                                                    <h4><b>
+                                                            <%= supervisor.name %>
+                                                        </b>
+                                                    </h4>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    هاتف المشرف:
+                                                </td>
+                                                <td>
+                                                    <h4><b>
+                                                            <%= supervisor.saudi_tel %>
+                                                        </b>
+                                                    </h4>
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
                                 </div>
                             </div>
                             <% }) %>
                     </section>
-
-                    <section>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>madina hotel</th>
-                                    <th>makkah hotel</th>
-                                    <th>passport</th>
-                                    <th>رقم البطاقة الوطنية</th>
-                                    <th>الإسم</th>
-                                    <th>الصورة الشخصية</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% travelers.forEach(function(traveler, i) { %>
-                                    <tr id="row-<%= traveler._id %>" style="--i:<%= i %>">
-                                        <td>
-                                            <button type="button" class="btn edit-btn" 
-                                                onclick="editTravel('<%= traveler._id %>')"><i
-                                                    class="fa-regular fa-pen-to-square"></i></button>
-                                            <button type="button" class="btn confirm-btn" style="display:none;"
-                                                onclick="confirmEdit('<%= traveler._id %>')">تأكيد</button>
-                                            <button type="button" class="btn"
-                                                onclick="deleteTravel('<%= traveler._id %>')"><i
-                                                    class="fa-regular fa-trash-can"></i></button>
-                                        </td>
-                                        <td class="madina_hotel">
-                                            <%= traveler.madina_hotel %>
-                                        </td>
-                                        <td class="makkah_hotel">
-                                            <%= traveler.makkah_hotel %>
-                                        </td>
-                                        <td class="passport_number">
-                                            <%= traveler.passport_number %>
-                                        </td>
-                                        <td class="traveler_n_id">
-                                            <%= traveler.n_id %>
-                                        </td>
-
-                                        </td>
-                                        <td class="traveler_name">
-                                            <%= traveler.name %>
-                                        </td>
-                                        <td class="traveler_image">
-                                            <img src="<%= traveler.image %>" alt="img">
-                                        </td>
+                    <%- include('partials/print.ejs') %>
+                        <section>
+                            <table id="main_table">
+                                <thead>
+                                    <tr>
+                                        <th>الصورة الشخصية</th>
+                                        <th>الإسم</th>
+                                        <th>رقم البطاقة الوطنية</th>
+                                        <th>جواز السفر</th>
+                                        <th>فندق مكة</th>
+                                        <th>فندق المدينة</th>
+                                        <th>نوع الغرفة</th>
                                     </tr>
-                                    <% if (traveler.image && traveler.image_content_type) { %>
-                                        <img src="data:<%= traveler.image_content_type %>;base64,<%= traveler.image.toString('base64') %>"
-                                            width="50" height="50" />
-                                        <% } %>
-                                            <% }); %>
-                            </tbody>
+                                </thead>
+                                <tbody>
+                                    <% travelers.forEach(function(traveler, i) { %>
+                                        <tr id="row-<%= traveler._id %>">
+                                            <td class="traveler_image">
+                                                <img src="<%= traveler.image %>" alt="img">
+                                            </td>
+                                            <td class="traveler_name">
+                                                <%= traveler.name %>
+                                            </td>
+                                            <td class="traveler_n_id">
+                                                <%= traveler.n_id %>
+                                            </td>
+                                            <td class="passport_number">
+                                                <%= traveler.passport_number %>
+                                            </td>
+                                            <td class="makkah_hotel">
+                                                <%= traveler.makkah_hotel %>
+                                            </td>
+                                            <td class="madina_hotel">
+                                                <%= traveler.madina_hotel %>
+                                            </td>
+                                            <td>
+                                                <%= traveler.room_type %>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn edit-btn"
+                                                    onclick="Edit_Traveler('<%= traveler._id %>')"><i
+                                                        class="fa-regular fa-pen-to-square"></i></button>
+                                                <button type="button" class="btn"
+                                                    onclick="deleteTravel('<%= traveler._id %>')"><i
+                                                        class="fa-regular fa-trash-can"></i></button>
+                                            </td>
 
-                        </table>
-                    </section>
+                                        </tr>
+
+                                        <!-- Edit Row -->
+                                        <tr id="edit-<%= traveler._id %>" style="display: none;">
+                                            <td>
+                                                <input type="file" name="image-<%= traveler._id %>"
+                                                    id="image-<%= traveler._id %>" accept="image/*"
+                                                    style="display: none;">
+                                                <label for="image-<%= traveler._id %>">upload</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="" id="name" value="<%= traveler.name %>">
+                                            </td>
+                                            <td>
+                                                <input type="text" name="" id="n_id" value="<%= traveler.n_id %>">
+                                            </td>
+                                            <td>
+                                                <input type="text" id="passport_number"
+                                                    value="<%= traveler.passport_number %>">
+                                            </td>
+                                            <td>
+                                                <select name="makkah_hotel" id="makkah_hotel-<%= traveler._id %>">
+                                                    <% hotels.forEach(function(hotel) { %>
+                                                        <% if (hotel.hotel_city==='مكة' ) { %>
+                                                            <option value="<%= hotel.hotel_name %>">
+                                                                <%= hotel.hotel_name %>
+                                                            </option>
+                                                            <% } %>
+                                                                <% }) %>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="madina_hotel" id="madina_hotel-<%= traveler._id %>">
+                                                    <% hotels.forEach(function(hotel) { %>
+                                                        <% if (hotel.hotel_city==='المدينة' ) { %>
+                                                            <option value="<%= hotel.hotel_name %>">
+                                                                <%= hotel.hotel_name %>
+                                                            </option>
+                                                            <% } %>
+                                                                <% }) %>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="room_type" id="room_type-<%= traveler._id %>">
+                                                    <option selected disabled value="سداسية">
+                                                        نوع الغرفة
+                                                    </option>
+                                                    <option value="سداسية">
+                                                        سداسية
+                                                    </option>
+                                                    <option value="رباعية">
+                                                        رباعية
+                                                    </option>
+                                                    <option value="ثنائية">
+                                                        ثنائية
+                                                    </option>
+                                                    <option value="فردية">
+                                                        فردية
+                                                    </option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <button class="btn" onclick="Confirm_Edit('<%= traveler._id %>')">
+                                                    <i class="fa-regular fa-square-check"></i>
+                                                </button>
+                                            </td>
+                                            <% }); %>
+                                        </tr>
+
+                                </tbody>
+
+                            </table>
+                        </section>
 
 
         </main>
@@ -136,7 +306,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
-        /* margin-bottom: 24px; */
+        display: none;
     }
 
     .card {
@@ -146,10 +316,11 @@
         border: 1px dashed black;
         overflow: hidden;
         align-items: center;
+        direction: rtl;
     }
 
     .card-img {
-        height: 60%;
+        height: 100px;
         width: 80%;
         margin: 0;
         text-align: center;
@@ -161,11 +332,41 @@
 
     /* Add some padding inside the card container */
     .card-container {
-        padding: 2px 16px;
-        height: 40%;
+        /* padding: 2px 16px; */
+        height: 220px;
         margin: 0;
         text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
+
+    .card-container table {
+        height: 100px;
+        /* or your desired value */
+        font-size: 0.9em;
+        margin: 0 auto;
+    }
+
+    .card-container td,
+    .card-container th {
+        padding: 2px 6px;
+        height: 18px;
+        font-size: 0.9em;
+        line-height: 1.1;
+        text-align: right;
+    }
+
+    .card-container p,
+    .card-container h4,
+    .card-container b {
+        margin: 0;
+        padding: 0;
+        font-size: 0.95em;
+    }
+
+
+
 
 
 
@@ -176,18 +377,51 @@
 
 
 
-        #preview-section,
-        #preview-section * {
+        body.print_cards #preview-section,
+        body.print_cards #preview-section * {
             visibility: visible !important;
         }
 
-        #preview-section {
+        body.print_cards #preview-section {
+            display: inline-flex !important;
             position: absolute;
             left: 0;
             top: 0;
             width: 100vw;
             background: white;
             box-shadow: none;
+        }
+
+        body.print_table #main_table,
+        body.print_table #main_table * {
+            visibility: visible !important;
+        }
+
+        body.print_table #main_table {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100vw !important;
+            width: 100% !important;
+            background: white;
+            box-shadow: none;
+        }
+
+        body.print_table table {
+            width: 100vw !important;
+            border-collapse: collapse !important;
+            border: 1px solid black;
+        }
+
+        body.print_table table td:first-child,
+        body.print_table table th:first-child,
+        body.print_table table td:last-child {
+            display: none !important;
+        }
+
+        body.print_table td,
+        th {
+            border: 1px solid black !important;
         }
 
         /* Hide the heading specifically if needed */

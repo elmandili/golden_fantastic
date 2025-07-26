@@ -21,100 +21,194 @@
             <section>
                 <form class="container" action="/api/travel/create" method="post" id="travelForm">
 
-                    <input required type="text" name="supervisor" id="supervisor" placeholder="إسم المشرف">
 
-                    <input required type="datetime-local" name="dep_date" id="dep_date" placeholder="تاريخ الذهاب">
-                    <input required type="datetime-local" name="return_date" id="return_date" placeholder="تاريخ الإياب">
-                    <input type="text" name="makkah_hotel" id="makkah_hotel" placeholder="فندق المدينة">
-                    <input type="text" name="madina_hotel" id="madina_hotel" placeholder="فندق مكة">
+                    <select name="supervisor" id="supervisor" required>
+                        <option value="" selected disabled">اختر المشرف</option>
+                        <% supervisors.forEach(function(supervisor) { %>
+                            <option value="<%= supervisor.name %>">
+                                <%= supervisor.name %>
+                            </option>
+                            <% }) %>
+                    </select>
+                    <input required type="datetime-local" name="dep_date" id="dep_date" class="date_picker"
+                        placeholder="تاريخ الذهاب">
+                    <input required type="datetime-local" name="return_date" id="return_date" class="date_picker"
+                        placeholder="تاريخ الإياب">
+                    <select name="makkah_hotel" id="makkah_hotel">
+                        <option value="لم يتم الإختيار">فندق مكة</option>
+                        <% hotels.forEach(function(hotel){ %>
+                            <% if(hotel.hotel_city==='مكة' ) { %>
+                                <option value="<%= hotel.hotel_name %>">
+                                    <%= hotel.hotel_name %>
+                                </option>
+                                <% } %>
+
+                                    <% }) %>
+                    </select>
+                    <select name="madina_hotel" id="madina_hotel">
+                        <option value="لم يتم الإختيار">فندق المدينة</option>
+                        <% hotels.forEach(function(hotel){ %>
+                            <% if(hotel.hotel_city==='المدينة' ) { %>
+                                <option value="<%= hotel.hotel_name %>">
+                                    <%= hotel.hotel_name %>
+                                </option>
+                                <% } %>
+
+                                    <% }) %>
+                    </select>
                     <button type="submit"><i class="fa-solid fa-plus"></i>أضف رحلة</button>
-                    <script>
-                        flatpickr("#dep_date", {});
-                        flatpickr("#return_date", {});
-                    </script>
+
                 </form>
             </section>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>فندق المدينة</th>
-                        <th>فندق مكة</th>
-                        <th>تاريخ الإياب</th>
-                        <th>تاريخ الذهاب</th>
-                        <th>المشرف</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% travels.forEach(function(travel) { %>
-                        <tr id="row-<%= travel._id %>">
-                            <td>
-                                <button type="button" class="btn"
-                                    onclick="window.location.href = '/travelers/<%= travel._id %>'"><i
-                                        class="fa-regular fa-user"></i> المسافرون</button>
-                                <button type="button" class="btn edit-btn" onclick="editTravel('<%= travel._id %>')"><i
-                                        class="fa-regular fa-pen-to-square"></i></button>
-                                <button type="button" class="btn confirm-btn" style="display:none;"
-                                    onclick="confirmEdit('<%= travel._id %>')"><i
-                                        class="fa-regular fa-square-check"></i></button>
-                                <button type="button" class="btn del-btn" onclick="deleteTravel('<%= travel._id %>')"><i
-                                        class="fa-regular fa-trash-can"></i></button>
-                            </td>
-                            <td>
-                                <%= travel.madina_hotel %>
-                            </td>
-                            <td>
-                                <%= travel.makkah_hotel %>
-                            </td>
-                            <td class="return_date"
-                                data-date="<%= new Date(travel.return_date).toISOString().slice(0, 10) %>">
-                                <%= new Date(travel.return_date).toISOString().slice(0, 10) %>
-                            </td>
-                            <td class="dep_date"
-                                data-date="<%= new Date(travel.dep_date).toISOString().slice(0, 10) %>">
-                                <%= new Date(travel.dep_date).toISOString().slice(0, 10) %>
-                            </td>
-                            <td class="supervisor">
-                                <%= travel.supervisor %>
-                            </td>
+            <%- include('partials/print.ejs') %>
+
+                <table id="main_table">
+                    <thead>
+                        <tr>
+                            <th>المشرف</th>
+                            <th>تاريخ الذهاب</th>
+                            <th>تاريخ الإياب</th>
+                            <th>فندق مكة</th>
+                            <th>فندق المدينة</th>
+
                         </tr>
-                        <% }); %>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <% travels.forEach(function(travel) { %>
+                            <tr id="row-<%= travel._id %>">
+                                <td class="supervisor">
+                                    <%= travel.supervisor %>
+                                </td>
+
+                                <td class="dep_date"
+                                    data-date="<%= new Date(travel.dep_date).toISOString().slice(0, 10) %>">
+                                    <%= new Date(travel.dep_date).toISOString().slice(0, 10) %>
+                                </td>
+                                <td class="return_date"
+                                    data-date="<%= new Date(travel.return_date).toISOString().slice(0, 10) %>">
+                                    <%= new Date(travel.return_date).toISOString().slice(0, 10) %>
+                                </td>
+
+                                <td id="makkah_hotel_cell">
+                                    <%= travel.makkah_hotel %>
+                                </td>
+
+                                <td id="madina_hotel_cell">
+                                    <%= travel.madina_hotel %>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn"
+                                        onclick="window.location.href = '/travelers/<%= travel._id %>'"><i
+                                            class="fa-regular fa-user"></i></button>
+                                    <button type="button" class="btn edit-btn"
+                                        onclick="Edit_Travel('<%= travel._id %>')"><i
+                                            class="fa-regular fa-pen-to-square"></i></button>
+                                    <button type="button" class="btn del-btn"
+                                        onclick="deleteTravel('<%= travel._id %>')"><i
+                                            class="fa-regular fa-trash-can"></i></button>
+                                </td>
+                            </tr>
+                            <tr id="edit-<%= travel._id %>" style="display: none;">
+                                <td><select name="" id="supervisor_name">
+                                        <% supervisors.forEach(function(supervisor) { %>
+                                            <option value="<%= supervisor.name %>">
+                                                <%= supervisor.name %>
+                                            </option>
+                                            <% }) %>
+                                    </select></td>
+                                <td><input type="datetime-local" name="" id="dep_date" class="date_picker"
+                                        value="<%= travel.dep_date ? new Date(travel.dep_date).toISOString().slice(0,16) : '' %>"
+                                        placeholder="تاريخ">
+                                </td>
+                                <td><input type="datetime-local" name="" id="return_date" class="date_picker"
+                                        value="<%= travel.return_date ? new Date(travel.return_date).toISOString().slice(0,16) : '' %>"
+                                        placeholder="تاريخ">
+                                </td>
+                                </td>
+                                <td><select name="" id="makkah_hotel">
+                                        <!-- <option value="">makkah makkah</option> -->
+                                        <% hotels.forEach(function(hotel) { %>
+                                            <% if (hotel.hotel_city==='مكة' ) { %>
+                                                <option value="<%= hotel.hotel_name %>">
+                                                    <%= hotel.hotel_name %>
+                                                </option>
+                                                <% } %>
+                                                    <% }) %>
+                                    </select></td>
+                                <td><select name="" id="madina_hotel">
+                                        <% hotels.forEach(function(hotel) { %>
+                                            <% if (hotel.hotel_city==='المدينة' ) { %>
+                                                <option value="<%= hotel.hotel_name %>">
+                                                    <%= hotel.hotel_name %>
+                                                </option>
+                                                <% } %>
+                                                    <% }) %>
+                                    </select></td>
+                                </td>
+                                <td><button class="btn"
+                                        onclick="Confirm_Edit_Travel('<%=travel._id%>')"><i
+                                            class="fa-regular fa-square-check"></i></button></td>
+                            </tr>
+                            <% }); %>
+                    </tbody>
+                </table>
 
         </main>
 
 </body>
 
 <script src="/js/travels.js"></script>
+<script>
+    flatpickr(".date_picker", {});
+</script>
 
 <style>
-    table {
-        font-family: Arial, Helvetica, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-    }
+    @media print {
+        body * {
+            visibility: hidden !important;
+        }
 
-    table td,
-    table th {
-        border: 1px solid #ddd;
-        padding: 8px;
-        /* width: 33%; */
-    }
+        #main_table,
+        #main_table * {
+            visibility: visible !important;
+        }
+
+        #main_table {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            border-collapse: collapse !important;
+        }
+
+        #main_table thead tr th {
+            border: 1px solid black;
+            color: black;
+        }
 
 
+        tbody td {
+            padding: 10px !important;
+            background: none !important;
+            border: 1px solid black;
+        }
 
-    table tr:hover {
-        background-color: #ddd;
-    }
+        tbody td:last-child {
+            display: none;
+        }
 
-    table th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        text-align: right;
-        background-color: #04AA6D;
-        color: white;
+        td img {
+            max-height: 50px !important;
+        }
+
+        /* Hide headings and other elements if needed */
+        .heading-section,
+        form,
+        .btn,
+        nav {
+            display: none !important;
+        }
     }
 </style>
 

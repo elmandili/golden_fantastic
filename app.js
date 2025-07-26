@@ -6,8 +6,16 @@ import { fileURLToPath } from 'url'
 import mongoose from 'mongoose'
 import travelRoute from './routes/travelRoute.js'
 import travelerRoute from './routes/travelerRoute.js'
-import supervisorRoute  from './routes/supervisorRoute.js'
+import supervisorRoute from './routes/supervisorRoute.js'
 import pagesRoute from './routes/pagesRoute.js'
+import hotelRoute from './routes/hotelRoute.js'
+import Traveler from './models/travelerModel.js'
+import session from 'express-session'
+import passport from 'passport'
+import authRoutes from './routes/auth.js'
+import flash from 'connect-flash'
+
+
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -23,25 +31,51 @@ const port = process.env.PORT || 3000
 console.log(process.env.PORT);
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
+app.use(session({
+  secret: 'secret-key',
+  resave: false,
+  saveUninitialized: false,
+}));
 
-app.get('/', (req,res)=>{
-	res.render('index');
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+app.use((req,res,next) => {
+	res.locals.error = req.flash('error');
+	next();
+});
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) return next();
+  res.redirect('/login');
+}
+
+app.get('/', (req, res) => {
+	res.render('index', {user: req.user});
 })
 
 app.use('/api/travel/', travelRoute);
 app.use('/api/traveler/', travelerRoute)
 app.use('/api/supervisor/', supervisorRoute);
+app.use('/api/hotel/', hotelRoute);
 app.use('/', pagesRoute);
 
 
 
-app.listen(port, ()=>{
+app.listen(port, () => {
 	console.log(`server listening to port ${port}`);
 });
 
-mongoose.connect(process.env.MONGODB_URL).then(()=>{
+mongoose.connect(process.env.MONGODB_URL).then(async () => {
 	console.log("mongodb connected");
-}).catch(()=>{
+	
+}).catch(() => {
 	console.log("couldn't connect to mongodb!");
 })
+
+
+
+app.use('/', authRoutes);

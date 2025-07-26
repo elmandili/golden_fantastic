@@ -1,0 +1,35 @@
+{
+  "EJS Expression (<%= %>)": {
+    "prefix": "ejs",
+    "body": ["<%= $1 %>"],
+    "description": "EJS escaped output"
+  },
+  "EJS Raw Expression (<%- %>)": {
+    "prefix": "ejsr",
+    "body": ["<%- $1 %>"],
+    "description": "EJS raw output"
+  },
+  "EJS Script Tag (<% %>)": {
+    "prefix": "ejss",
+    "body": ["<% $1 %>"],
+    "description": "EJS script tag"
+  },
+  "EJS If Statement": {
+    "prefix": "ejsif",
+    "body": [
+      "<% if ($1) { %>",
+      "    $2",
+      "<% } %>"
+    ],
+    "description": "EJS if statement"
+  },
+  "EJS ForEach Loop": {
+    "prefix": "ejsfor",
+    "body": [
+      "<% $1.forEach(function($2) { %>",
+      "    $3",
+      "<% }) %>"
+    ],
+    "description": "EJS forEach loop"
+  }
+}

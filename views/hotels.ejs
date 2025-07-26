@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>الفنادق</title>
+</head>
+
+<body>
+    <%- include('partials/nav-bar.ejs') %>
+        <main>
+
+            <form id="hotelForm" method="post">
+                <input type="text" name="hotel_name" id="hotel_name" placeholder="إسم الفندق">
+                <input type="text" name="hotel_location" id="hotel_location" placeholder="غنوان الفندق">
+                <input type="tel" name="hotel_tel" id="hotel_tel" placeholder="رقم الفندق">
+                <select name="hotel_city" id="hotel_city">
+                    <option value="مكة">مكة</option>
+                    <option value="المدينة">المدينة</option>
+                </select>
+                <button type="submit">أضف فندق</button>
+            </form>
+            <%- include('partials/print.ejs') %>
+            <table id="main_table">
+                <thead>
+                    <th>إسم الفندق</th>
+                    <th>العنوان</th>
+                    <th>هاتف الفندق</th>
+                    <th>الموقع</th>
+                </thead>
+                <tbody>
+                    <% hotels.forEach(function(hotel) { %>
+                        <tr id="row-<%=hotel._id %>">
+                            <td id="hotel_name_cell">
+                                <%= hotel.hotel_name %>
+                            </td>
+                            <td id="hotel_location_cell">
+                                <%= hotel.hotel_location %>
+                            </td>
+                            <td id="hotel_tel_cell">
+                                <%= hotel.hotel_tel %>
+                            </td>
+                            <td id="hotel_city_cell">
+                                <%= hotel.hotel_city %>
+                            </td>
+                            <td>
+                                <button class="btn" id="edit_btn" onclick="Edit_Hotel('<%= hotel._id %>')"><i
+                                        class="fa-regular fa-pen-to-square"></i></button>
+                                <button class="btn" id="confirm_btn" style="display: none;"
+                                    onclick="Confirm_Edit('<%= hotel._id %>')"><i
+                                        class="fa-regular fa-square-check"></i></button>
+                                <button class="btn" id="delete_btn" onclick="Delete_Hotel('<%= hotel._id %>')"><i
+                                        class="fa-regular fa-trash-can"></i></button>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+        </main>
+        <script src="/js/hotels.js"></script>
+</body>
+
+<style>
+    @media print {
+        body * {
+            visibility: hidden  !important;
+        }
+
+        #main_table, #main_table * {
+            visibility: visible !important;
+        }
+
+        #main_table {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-collapse: collapse !important;
+        }
+
+        table th, td {
+            border: 1px solid black !important;
+            background: none !important;
+            color: black !important;
+        }
+        table td:last-child {
+            display: none !important;
+        }
+
+        
+    }
+</style>
+
+</html>

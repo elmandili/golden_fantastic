@@ -32,6 +32,11 @@ const travelerSchema = new mongoose.Schema({
         require: true,
         default: "no value"
     },
+    room_type: {
+        type: String,
+        require: true,
+        default: "رباعية"
+    },
     image: {
         type: String,
         required: true,

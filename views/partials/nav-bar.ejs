@@ -1,19 +1,32 @@
-<nav>
+<nav style="direction: rtl;">
+  <div style="width: 100%; background-color: #36374e; position: relative; height: 40px; color: white;">
+    <h2 id="loop_text" style="margin: 0;">
+      "وَفِي السَّمَاءِ رِزْقُكُمْ وَمَا تُوعَدُونَ * فَوَرَبِّ السَّمَاءِ وَالْأَرْضِ إِنَّهُ لَحَقٌّ مِّثْلَ مَا أَنَّكُمْ تَنطِقُونَ" (الذاريات: 22-23)
+    </h2>
+
+  </div>
+  <div style="min-height: 50px; display: flex;">
+    <a onclick="window.location.href = '/logout'"><i class="fa-solid fa-arrow-right-from-bracket" style="color: #ffffff;"></i></a>
+    <a href=""><i class="fa-solid fa-gear"></i></a>
+    <a onclick="window.location.href = '/travels'">الرحلات</a>
+    <a onclick="window.location.href = '/travelers'">المسافرون</a>
+    <a onclick="window.location.href = '/supervisors'">المرافقون</a>
+    <a onclick="window.location.href = '/hotels'">الفنادق</a>
+  </div>
   <script src="https://kit.fontawesome.com/ecb75cba71.js" crossorigin="anonymous"></script>
-  <a onclick="window.location.href = '/supervisors'">المرافقون</a>
-  <a onclick="window.location.href = '/travelers'">المسافرون</a>
-  <a onclick="window.location.href = '/travels'">الرحلات</a>
+
 </nav>
 
 <style>
-  
   nav {
     margin: 0;
     padding: 0;
     overflow: hidden;
     display: flex;
+    flex-wrap: wrap;
     background-color: #36374e;
     justify-content: center;
+    align-items: center;
   }
 
   a {
@@ -22,20 +35,41 @@
     padding: 40px;
     text-decoration: none;
     cursor: pointer;
-    transition: 1s;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   /* Change the link color to #111 (black) on hover */
   a:hover {
     background-color: #111111;
-    transition: 1s;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
+
+  #loop_text {
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    animation: text_animation 30s linear infinite;
+  }
+
+  @keyframes text_animation {
+    0% {
+      left: -100%;
+    }
+
+    100% {
+      left: 100%;
+    }
+  }
+
 
 
   @keyframes fadeIn {
     from {
       opacity: 0;
     }
+
     to {
       opacity: 1;
     }

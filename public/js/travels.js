@@ -29,46 +29,35 @@ async function deleteTravel(_id) {
     location.reload(); // Optionally reload to update the table
 }
 
-function editTravel(id) {
+function Edit_Travel(id) {
     const row = document.getElementById('row-' + id);
-    const supervisorCell = row.querySelector('.supervisor');
-    const depDateCell = row.querySelector('.dep_date');
-    const returnDateCell = row.querySelector('.return_date');
-    const editBtn = row.querySelector('.edit-btn');
-    const confirmBtn = row.querySelector('.confirm-btn');
+    const edit = document.getElementById('edit-' + id);
 
-    // Replace text with input fields
-    supervisorCell.innerHTML = `<input class="edit-input" type="text" value="${supervisorCell.textContent.trim()}" style="width:90%;">`;
-    depDateCell.innerHTML = `<input class="edit-input" type="date" value="${depDateCell.dataset.date}" style="width:90%;">`;
-    returnDateCell.innerHTML = `<input class="edit-input" type="date" value="${returnDateCell.dataset.date}" style="width:90%;">`;
-
-    editBtn.style.display = 'none';
-    confirmBtn.style.display = 'inline-block';
+    row.style.display = 'none';
+    edit.style.display = 'table-row';
 }
 
-async function confirmEdit(id) {
-    const row = document.getElementById('row-' + id);
-    const supervisorInput = row.querySelector('.supervisor input');
-    const depDateInput = row.querySelector('.dep_date input');
-    const returnDateInput = row.querySelector('.return_date input');
-    const editBtn = row.querySelector('.edit-btn');
-    const confirmBtn = row.querySelector('.confirm-btn');
+async function Confirm_Edit_Travel(id) {
+    const edit = document.getElementById('edit-' + id);
 
-    const supervisor = supervisorInput.value;
-    const depDate = depDateInput.value;
-    const returnDate = returnDateInput.value;
+    const supervisor_name = edit.querySelector("#supervisor_name").value;
+    const dep_date = edit.querySelector("#dep_date").value;
+    const return_date = edit.querySelector("#return_date").value;
+    const makkah_hotel = edit.querySelector("#makkah_hotel").value;
+    const madina_hotel = edit.querySelector("#madina_hotel").value;
 
     await fetch('/api/travel/update/' + id, {
-        method: 'PUT',
+        method: "PUT",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ supervisor, dep_date: depDate, return_date: returnDate })
+        body: JSON.stringify({
+            supervisor: supervisor_name,
+            dep_date: dep_date,
+            return_date: return_date,
+            makkah_hotel: makkah_hotel,
+            madina_hotel: madina_hotel
+        })
     });
 
-    // Update the table cells with new values
-    row.querySelector('.supervisor').textContent = supervisor;
-    row.querySelector('.dep_date').textContent = depDate;
-    row.querySelector('.return_date').textContent = returnDate;
-
-    editBtn.style.display = 'inline-block';
-    confirmBtn.style.display = 'none';
+    // Optionally reload to show changes
+    window.location.reload();
 }

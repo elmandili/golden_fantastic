@@ -3,7 +3,7 @@ import cloudinary from "../public/js/cloudinaryConfig.js";
 
 export const create = async (req, res) => {
     try {
-        const { name, n_id } = req.body;
+        const { name, n_id, passport_number, moroccan_tel, saudi_tel } = req.body;
         let imageUrl = null;
 
         const existSupervisor = await Supervisor.find({ n_id: n_id });
@@ -45,7 +45,10 @@ export const create = async (req, res) => {
         const newSupervisor = new Supervisor({
             name: name,
             n_id: n_id,
-            image: imageUrl
+            passport_number,
+            moroccan_tel,
+            saudi_tel,
+            image: imageUrl? imageUrl: "https://res.cloudinary.com/di7s8y6pm/image/upload/v1752938562/samples/people/profile_butbzc.png"
         })
 
         await newSupervisor.save();
@@ -76,11 +79,15 @@ export const update = async (req, res) => {
         const id = req.params.id;
         const name = req.body.name;
         const n_id = req.body.n_id;
+        const {passport_number, moroccan_tel, saudi_tel} = req.body
         let imageUrl = null;
 
         let updateData = {
             n_id: req.body.n_id,
-            name: req.body.name
+            name: req.body.name,
+            passport_number: passport_number,
+            moroccan_tel: moroccan_tel,
+            saudi_tel: saudi_tel
         };
 
         if (req.file) {

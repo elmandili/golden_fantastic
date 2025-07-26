@@ -10,25 +10,33 @@ document.getElementById('travelerForm').onsubmit = async function (e) {
     location.reload();
 };
 
-document.getElementById('toggle-preview-btn').onclick = function () {
-    const previewSection = document.getElementById('preview-section');
-    if (previewSection.style.display === 'none') {
-        previewSection.style.display = 'flex';
-        this.textContent = 'إخفاء المعاينة';
-    } else {
-        previewSection.style.display = 'none';
-        this.textContent = 'معاينة بطاقات التعريف';
-    }
-};
+document.getElementById("print_id").style.display = "initial";
 
-document.getElementById('print-cards-btn').onclick = function () {
-    // Make sure the preview section is visible before printing
-    const previewSection = document.getElementById('preview-section');
-    if (previewSection.style.display === 'none' || previewSection.style.display === '') {
-        previewSection.style.display = 'flex';
-    }
+
+document.getElementById('print_id').onclick = function () {
+    const body = document.getElementById("body")
+    body.className = '';
+    body.classList.add("print_cards");
     window.print();
 };
+
+const fileInput = document.getElementById('image');
+fileInput.addEventListener('change', function () {
+    const file = this.files[0];
+    if (file && !file.type.startsWith('image/')) {
+        alert("Only image files are allowed!");
+        this.value = ''; // clear the input
+    }
+    else {
+        console.log("selected");
+    }
+});
+document.getElementById('print_table').onclick = function () {
+    const body = document.getElementById("body");
+    body.className = '';
+    body.classList.add('print_table');
+    window.print();
+}
 
 async function deleteTravel(_id) {
     await fetch('/api/traveler/delete/' + _id, {
@@ -39,52 +47,40 @@ async function deleteTravel(_id) {
     location.reload(); // Optionally reload to update the table
 }
 
-function editTravel(id) {
+function Edit_Traveler(id) {
     const row = document.getElementById('row-' + id);
-    const nameCell = row.querySelector('.traveler_name');
-    const idCell = row.querySelector('.traveler_n_id');
-    const imageCell = row.querySelector('.traveler_image');
-    const passportCell = row.querySelector('.passport_number');
-    const makkahCell = row.querySelector('.makkah_hotel');
-    const madinaCell = row.querySelector('.madina_hotel');
-    const editBtn = row.querySelector('.edit-btn');
-    const confirmBtn = row.querySelector('.confirm-btn');
+    const edit = document.getElementById('edit-' + id);
 
-    // Replace text with input fields
-    nameCell.innerHTML = `<input class="edit-input" type="text" value="${nameCell.textContent.trim()}" style="width:90%; text-align: right;">`;
-    idCell.innerHTML = `<input class"edit-input" type="text" value="${idCell.textContent.trim()}" style="width:90%; text-align: right;">`;
-    passportCell.innerHTML = `<input class"edit-input" type="text" value="${passportCell.textContent.trim()}" style="width:90%; text-align: right;">`;
-    makkahCell.innerHTML = `<input class"edit-input" type="text" value="${makkahCell.textContent.trim()}" style="width:90%; text-align: right;">`;
-    madinaCell.innerHTML = `<input class"edit-input" type="text" value="${madinaCell.textContent.trim()}" style="width:90%; text-align: right;">`;
-
-    // Add file input for image update
-    imageCell.innerHTML = `
-        <input type="file" class="edit-image-input" accept="image/*" style="width:90%;">
-        <br>
-        <small>اختر صورة جديدة إذا أردت التغيير</small>
-    `;
-
-    editBtn.style.display = 'none';
-    confirmBtn.style.display = 'inline-block';
+    row.style.display = 'none';
+    edit.style.display = 'table-row';
 }
 
-async function confirmEdit(id) {
-    const row = document.getElementById('row-' + id);
-    const nameInput = row.querySelector('.traveler_name input');
-    const idInput = row.querySelector('.traveler_n_id input');
-    const imageInput = row.querySelector('.traveler_image input[type="file"]');
-    const editBtn = row.querySelector('.edit-btn');
-    const confirmBtn = row.querySelector('.confirm-btn');
+async function Confirm_Edit(id) {
+    const edit = document.getElementById('edit-' + id);
+    const image = edit.querySelector("#image-" + id)
+    const name = edit.querySelector("#name").value
+    const n_id = edit.querySelector("#n_id").value
+    const passport_number = edit.querySelector("#passport_number").value
+    const makkah_hotel = edit.querySelector("#makkah_hotel-" + id).value;
+    const madina_hotel = edit.querySelector("#madina_hotel-" + id).value;
+    const room_type = edit.querySelector("#room_type-" + id).value
 
-    const name = nameInput.value;
-    const n_id = idInput.value;
+
+    
+
+    
 
     // Prepare FormData for PUT request
     const formData = new FormData();
     formData.append('name', name);
     formData.append('n_id', n_id);
-    if (imageInput && imageInput.files.length > 0) {
-        formData.append('image', imageInput.files[0]);
+    formData.append('passport_number', passport_number);
+    formData.append('makkah_hotel', makkah_hotel);
+    formData.append('madina_hotel', madina_hotel);
+    formData.append('room_type', room_type);
+    if (image && image.files.length > 0) {
+        console.log("image append")
+        formData.append('image', image.files[0]);
     }
 
     await fetch('/api/traveler/update/' + id, {
@@ -92,13 +88,10 @@ async function confirmEdit(id) {
         body: formData
     });
 
-    // Update the table cells with new values
-    row.querySelector('.traveler_name').textContent = name;
-    row.querySelector('.traveler_n_id').textContent = n_id;
-    // Optionally, you can reload the page to show the new image
-    // location.reload();
 
-    editBtn.style.display = 'inline-block';
-    confirmBtn.style.display = 'none';
+
+
     window.location.reload();
 }
+
+

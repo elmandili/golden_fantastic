@@ -1,3 +1,11 @@
+:root {
+    --dark_background: #36374e;
+    --light_background: #f2f2f2;
+
+}
+
+
+
 html,
 body {
     margin: 0;
@@ -32,7 +40,7 @@ main form {
 }
 
 
-form input[type="text"], input[type="date"], input[type="tel"] {
+input[type="text"], input[type="date"], input[type="tel"], select {
     height: 50px;
     font-size: larger;
     border: none;
@@ -46,7 +54,7 @@ form input[type="text"], input[type="date"], input[type="tel"] {
 
 
 form button {
-    background-color: #36374e;
+    background-color: var(--dark_background);
     height: 50px;
     color: white;
     width: 90%;
@@ -83,38 +91,73 @@ form label i {
 }
 
 
+#printing_section {
+    width: 100%;
+    height: 40px;
+    display: inline-flex;
+    float: left;
+    margin: 10px;
+}
+
+#printing_section button {
+    background-color: #36374e;
+    min-width: 100px;
+    cursor: pointer;
+    transform: translateY(0);
+    transition: 0.5s;
+}
+
+#printing_section button:hover {
+    transform: translateY(-5px);
+}
+
+
+
+
 td {
     height: 50px;
 }
 
 
-table {
+#main_table {
     width: 100%;
     background-color: #d9dbe9;
-    border-collapse: collapse;
+    border-collapse: separate;
+    direction: rtl;
 }
 
-table thead tr {
+#main_table thead tr {
     background-color: #36374e;
     color: white;
-    border: none;
+    border: none;   
 }
 
-table thead tr th {
+#main_table thead tr th {
     background-color: #36374e;
     color: white;
     border: none;
     margin: 0;
-    padding: 20px;
+    padding: 10px;
+    text-align: right;
 }
 
-table tr:nth-child(even) {
+#main_table tbody td { 
+    padding: 10px;
+}
+
+
+#main_table tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+#main_table tr:nth-child(odd) {
+    background-color: white;
+}
 
-td img {
+#main_table td img {
     max-height: 100px;
 }
+
+
 
 
 .btn {
@@ -130,3 +173,4 @@ td img {
     cursor: pointer;
     transition: 1s;
 }
+
