@@ -40,11 +40,16 @@ console.log(process.env.PORT);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.set('trust proxy', 1);
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET || 'fallback',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: process.env.NODE_ENV === 'production' }
+  cookie: {
+    secure: process.env.NODE_ENV === 'production', // 👈 must be true only in prod
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 // 1 day
+  }
 }));
 
 
@@ -88,3 +93,4 @@ mongoose.connect(process.env.MONGODB_URL).then(async () => {
 
 
 app.use('/', authRoutes);
+
