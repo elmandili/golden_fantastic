@@ -28,28 +28,37 @@ const app = express();
 
 app.use(cors());
 app.use(helmet({
-	contentSecurityPolicy: {
-		directives: {
-			defaultSrc: ["'self'"],
-			scriptSrc: [
-				"'self'",
-				"https://cdn.jsdelivr.net",
-				"https://kit.fontawesome.com",
-				"'unsafe-inline'", // only if you need inline scripts (optional but risky)
-				"blob:"
-			],
-			styleSrc: [
-				"'self'",
-				"https://cdn.jsdelivr.net",
-				"'unsafe-inline'"
-			],
-			scriptSrcAttr: ["'self'", "'unsafe-inline'"],
-			connectSrc: ["'self'"],
-			imgSrc: ["'self'", "data:"],
-			fontSrc: ["'self'", "https://fonts.googleapis.com", "https://fonts.gstatic.com", "https://cdn.jsdelivr.net"],
-			objectSrc: ["'none'"]
-		}
-	}
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: [
+        "'self'",
+        "https://cdn.jsdelivr.net",
+        "https://kit.fontawesome.com",
+        "'unsafe-inline'",
+        "blob:"
+      ],
+      styleSrc: [
+        "'self'",
+        "https://cdn.jsdelivr.net",
+        "https://fonts.googleapis.com",
+        "'unsafe-inline'"
+      ],
+      fontSrc: [
+        "'self'",
+        "https://fonts.googleapis.com",
+        "https://fonts.gstatic.com",
+        "https://ka-f.fontawesome.com"
+      ],
+      imgSrc: ["'self'", "data:"],
+      connectSrc: [
+        "'self'",
+        "https://www.google-analytics.com",
+        "https://ka-f.fontawesome.com"
+      ],
+      scriptSrcAttr: ["'self'", "'unsafe-inline'"]
+    }
+  }
 }));
 app.use(compression());  // Compress response bodies
 
