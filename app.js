@@ -50,13 +50,14 @@ app.use(helmet({
         "https://fonts.gstatic.com",
         "https://ka-f.fontawesome.com"
       ],
-      imgSrc: ["'self'", "data:"],
+      imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
       connectSrc: [
         "'self'",
         "https://www.google-analytics.com",
         "https://ka-f.fontawesome.com"
       ],
-      scriptSrcAttr: ["'self'", "'unsafe-inline'"]
+      scriptSrcAttr: ["'self'", "'unsafe-inline'"],
+	  
     }
   }
 }));
