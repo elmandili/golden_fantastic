@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 mongoose.connect(process.env.MONGODB_URL).then(async () => {
-  await User.deleteMany(); // optional, clears old users
+//   await User.deleteMany(); // optional, clears old users
 
   const newUser = new User({ username: 'aymane', password: '0000' });
   await newUser.save();

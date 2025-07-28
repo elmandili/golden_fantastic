@@ -3,12 +3,39 @@ document.getElementById('travelerForm').onsubmit = async function (e) {
     const form = document.getElementById('travelerForm');
     const formData = new FormData(form);
 
-    await fetch('/api/traveler/create/' + window.travel_id, {
+    const res = await fetch('/api/traveler/create/' + window.travel_id, {
         method: 'POST',
         body: formData
-    });
-    location.reload();
+    })
+
+    if (res.status === 302) {
+        const error = document.getElementById("not_found_error");
+        error.style.display = 'flex'
+        console.log("already exist");
+    }
+
+    if(res.status === 200) {
+
+        location.reload();
+    }
 };
+
+document.getElementById('image').addEventListener('change', ()=>{
+    const preview_image = document.getElementById('preview_image');
+    const image_input = document.getElementById('image');
+
+    const file = image_input.files[0];
+
+    if(file) {
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            preview_image.src = reader.result;
+        }
+
+        reader.readAsDataURL(file);
+    }
+})
 
 document.getElementById("print_id").style.display = "initial";
 

@@ -23,12 +23,24 @@
                 </h1>
             </section>
             <% if(travel_id !="all" ) { %>
-                <section>
+                <section style="text-align: center;">
+                    <img id="preview_image"
+                        src="https://res.cloudinary.com/di7s8y6pm/image/upload/v1752938562/samples/people/profile_butbzc.png"
+                        alt="preview image" height="100px">
+                    <div id="not_found_error" class="error">
+                        <button onclick="document.getElementById('not_found_error').style.display = 'none'">X</button>
+                        <h2>المسافر موجود سلفا</h2>
+                    </div>
+
                     <form method="post" id="travelerForm" enctype="multipart/form-data">
-                        <input style="display: none;" type="file" name="image" id="image" accept="image/*">
-                        <label for="image"><i class="fa-solid fa-arrow-up-from-bracket"></i> إرفع صورة</label>
+
+                        <label>
+                            <i class="fa-solid fa-arrow-up-from-bracket"></i> إرفع صورة
+                            <input style="display: none;" type="file" name="image" id="image" accept="image/*">
+                        </label>
+
                         <input required type="text" name="name" id="name" placeholder="إسم المسافر">
-                        <input required type="text" name="n_id" id="n_id" placeholder="رقم البطاقة الوطنية">
+                        <input type="text" name="n_id" id="n_id" placeholder="رقم البطاقة الوطنية">
                         <input required type="text" name="passport_number" id="passport_number"
                             placeholder="رقم جواز السفر">
                         <select name="makkah_hotel" id="makkah_hotel">
@@ -83,10 +95,11 @@
 
                     <section id="preview-section" style="display: none;">
                         <% travelers.forEach(function(traveler) { %>
+
                             <div class="card">
+                                <img class="logo" src="/images/logo-1.png" alt="">
                                 <div class="card-img">
-                                    <img src="<%= traveler.image %>" alt="Avatar"
-                                        style="height: 100%; max-width: 100%;">
+                                    <img src="<%= traveler.image %>" alt="Avatar" height="80%" style="margin: auto;">
                                 </div>
 
                                 <div class="card-container">
@@ -311,28 +324,37 @@
 
     .card {
         width: 33%;
-        max-height: 320px;
+        height: 350px;
+
         margin: 0;
         border: 1px dashed black;
         overflow: hidden;
         align-items: center;
         direction: rtl;
+        position: relative;
     }
 
     .card-img {
         height: 100px;
         width: 80%;
         margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         text-align: center;
         align-self: center;
         margin: auto;
         padding-top: 20px;
     }
 
+    .card-img img {
+        border: 4px solid white;
+        border-radius: 12px;
+    }
+
 
     /* Add some padding inside the card container */
     .card-container {
-        /* padding: 2px 16px; */
         height: 220px;
         margin: 0;
         text-align: center;
@@ -346,6 +368,7 @@
         /* or your desired value */
         font-size: 0.9em;
         margin: 0 auto;
+
     }
 
     .card-container td,
@@ -366,6 +389,32 @@
     }
 
 
+    .error {
+        background-color: hsla(0, 72%, 58%, 0.674);
+        width: 400px;
+        height: 100px;
+        border-radius: 12px;
+        text-align: center;
+        margin: auto;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        display: none;
+    }
+
+    .error button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        cursor: pointer;
+        border: none;
+        color: white;
+    }
+
+
 
 
 
@@ -377,9 +426,48 @@
 
 
 
+
         body.print_cards #preview-section,
         body.print_cards #preview-section * {
             visibility: visible !important;
+        }
+
+        .card {
+            position: relative;
+            /* background-color: hsl(0, 2%, 17%) !important; */
+            height: 91mm;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+/* 
+
+        .card {
+            --s: 9px;
+            
+            --c1: #4f4545;
+            --c2: #1c1c1c;
+
+            --_g: #0000 83%, var(--c1) 85% 99%, #0000 101%;
+            background:
+                radial-gradient(27% 29% at right, var(--_g)) calc(var(--s)/ 2) var(--s),
+                radial-gradient(27% 29% at left, var(--_g)) calc(var(--s)/-2) var(--s),
+                radial-gradient(29% 27% at top, var(--_g)) 0 calc(var(--s)/ 2),
+                radial-gradient(29% 27% at bottom, var(--_g)) 0 calc(var(--s)/-2) var(--c2);
+            background-size: calc(2*var(--s)) calc(2*var(--s));
+        } */
+
+        /* .card * {
+            color: white;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        } */
+
+        body.print_cards .card .logo {
+            position: absolute;
+            width: 50px;
+            top: 10px;
+            right: 10px;
         }
 
         body.print_cards #preview-section {
@@ -428,6 +516,9 @@
         main h1 {
             display: none;
         }
+        
+
+        
     }
 </style>
 

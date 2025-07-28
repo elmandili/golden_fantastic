@@ -7,15 +7,18 @@ export const create = async (req, res) => {
     try {
         const travel_id = req.params.id;
         const { n_id, name, passport_number, makkah_hotel, madina_hotel } = req.body;
+        if (req.body.n_id?.trim() === '') {
+            req.body.n_id = undefined
+        }
 
-        if (!n_id || !name) {
+        if (!passport_number || !name) {
             return res.status(400).json({ message: "Missing required fields" });
         }
 
         // Check for existing traveler
-        const existTraveler = await Traveler.findOne({ n_id, travel_id });
+        const existTraveler = await Traveler.findOne({ passport_number, travel_id });
         if (existTraveler) {
-            return res.status(400).json({ message: "Traveler already exists!" });
+            return res.status(302).json({ message: "Traveler already exists!" });
         }
 
         let imageUrl = null;
@@ -50,7 +53,8 @@ export const create = async (req, res) => {
             req.body.image  = "https://res.cloudinary.com/di7s8y6pm/image/upload/v1752938562/samples/people/profile_butbzc.png"
         }
 
-        const travelerData = new Traveler({...req.body, travel_id});
+        req.body.travel_id = travel_id;
+        const travelerData = new Traveler(req.body);
 
         await travelerData.save();
         return res.status(200).json({ message: "Traveler created!" });

@@ -14,8 +14,7 @@ const travelerSchema = new mongoose.Schema({
 
     n_id: {
         type: String,
-        required: true,
-        default: "no value"
+        default: "بدون"
     },
     passport_number: {
         type: String,
