@@ -15,6 +15,22 @@ body {
 }
 
 
+body {
+    --s: 60px;
+    /* control the size*/
+    --c1: #e5e4e0;
+    --c2: #2b2e31;
+
+    --_g: #0000 83%, var(--c1) 85% 99%, #0000 101%;
+    background:
+        radial-gradient(27% 29% at right, var(--_g)) calc(var(--s)/ 2) var(--s),
+        radial-gradient(27% 29% at left, var(--_g)) calc(var(--s)/-2) var(--s),
+        radial-gradient(29% 27% at top, var(--_g)) 0 calc(var(--s)/ 2),
+        radial-gradient(29% 27% at bottom, var(--_g)) 0 calc(var(--s)/-2) var(--c2);
+    background-size: calc(2*var(--s)) calc(2*var(--s));
+}
+
+
 
 main {
     margin: 20px;
@@ -35,12 +51,30 @@ main form {
     grid-template-columns: auto auto auto;
     padding: 10px;
     width: 80%;
-    
+    background-color: #f2f2f2;
     border-radius: 25px;
 }
 
 
-input[type="text"], input[type="date"], input[type="tel"], select {
+
+.page_title {
+    background-color:#f2f2f2;
+    color: black;
+    width: 300px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    border-radius: 12px 12px 0 0;
+    
+}
+
+
+input[type="text"],
+input[type="date"],
+input[type="tel"],
+select {
     height: 50px;
     font-size: larger;
     border: none;
@@ -63,12 +97,15 @@ form button {
     cursor: pointer;
     transition: 0.5s;
 }
-form input:hover, form button:hover, form label:hover {
+
+form input:hover,
+form button:hover,
+form label:hover {
     width: 100%;
     transition: 0.5s;
 }
 
-form button i { 
+form button i {
     margin: 10px;
 }
 
@@ -129,7 +166,7 @@ td {
 #main_table thead tr {
     background-color: #36374e;
     color: white;
-    border: none;   
+    border: none;
 }
 
 #main_table thead tr th {
@@ -141,7 +178,7 @@ td {
     text-align: right;
 }
 
-#main_table tbody td { 
+#main_table tbody td {
     padding: 10px;
 }
 
@@ -149,6 +186,7 @@ td {
 #main_table tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+
 #main_table tr:nth-child(odd) {
     background-color: white;
 }
@@ -173,4 +211,3 @@ td {
     cursor: pointer;
     transition: 1s;
 }
-

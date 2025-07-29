@@ -9,8 +9,35 @@
 </head>
 
 <body>
+
     <%- include('partials/nav-bar.ejs') %>
-    <%= user.username %>
+        <table id="main_table">
+            <tbody>
+                <tr>
+                    <td>
+                        إسم المستخدم
+                    </td>
+                    <td>
+                        <%= user.username %>
+                    </td>
+                    <td>
+                        <button>edit</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        رمز المرور
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+                        <button>edit</button>
+                        <button>show</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 </body>
 
 </html>

@@ -1,12 +1,20 @@
 <nav style="direction: rtl;">
-  <div style="width: 100%; background-color: #36374e; position: relative; height: 40px; color: white;">
+  <div id="loader_container">
+    <div class="loader">
+
+    </div>
+  </div>
+
+  <div id="loop_container" style="width: 100%; position: relative; height: 40px; color: white;">
     <h2 id="loop_text" style="margin: 0;">
-      "وَفِي السَّمَاءِ رِزْقُكُمْ وَمَا تُوعَدُونَ * فَوَرَبِّ السَّمَاءِ وَالْأَرْضِ إِنَّهُ لَحَقٌّ مِّثْلَ مَا أَنَّكُمْ تَنطِقُونَ" (الذاريات: 22-23)
+      "وَفِي السَّمَاءِ رِزْقُكُمْ وَمَا تُوعَدُونَ * فَوَرَبِّ السَّمَاءِ وَالْأَرْضِ إِنَّهُ لَحَقٌّ مِّثْلَ مَا
+      أَنَّكُمْ تَنطِقُونَ" (الذاريات: 22-23)
     </h2>
 
   </div>
   <div style="min-height: 50px; display: flex;">
-    <a onclick="window.location.href = '/logout'"><i class="fa-solid fa-arrow-right-from-bracket" style="color: #ffffff;"></i></a>
+    <a onclick="window.location.href = '/logout'"><i class="fa-solid fa-arrow-right-from-bracket"
+        style="color: #ffffff;"></i></a>
     <a href=""><i class="fa-solid fa-gear"></i></a>
     <a onclick="window.location.href = '/travels'">الرحلات</a>
     <a onclick="window.location.href = '/travelers'">المسافرون</a>
@@ -27,6 +35,11 @@
     background-color: #36374e;
     justify-content: center;
     align-items: center;
+  }
+
+  nav,
+  #loop_container {
+    background-color: #2b2e31;
   }
 
   a {
@@ -74,4 +87,58 @@
       opacity: 1;
     }
   }
+
+
+
+
+
+
+
+  #loader_container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #2b2e31;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  /* HTML: <div class="loader"></div> */
+  .loader {
+    width: 50px;
+    aspect-ratio: 1;
+    color: #fff;
+    border: 2px solid;
+    box-sizing: border-box;
+    --c: radial-gradient(farthest-side, #0000 calc(100% - 3px), currentColor calc(100% - 2px) 98%, #0000);
+    background: var(--c), var(--c);
+    background-size: 23px 23px;
+    background-position: 0 0, 12px 12px;
+    animation: l4 1s infinite;
+  }
+
+  @keyframes l4 {
+    100% {
+      background-position: -23px 0px, 12px 35px
+    }
+  }
 </style>
+
+<script>
+
+  const loader = document.getElementById("loader_container");
+  const start = Date.now();
+
+  window.addEventListener("load", function () {
+    const duration = Date.now() - start;
+    const delay = Math.max(0, 1000 - duration); // ensure at least 1s
+
+    setTimeout(() => {
+      loader.style.display = "none";
+    }, delay);
+  });
+</script>
