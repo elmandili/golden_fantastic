@@ -9,6 +9,7 @@ dotenv.config()
 
 const route = express.Router();
 
+
 route.get('/travels', ensureAuthenticated, async (req,res)=>{
     const supervisors = await Supervisor.find();
     const travels = await Travels.find();
