@@ -15,72 +15,76 @@
                 <h1 class="page_title"">المرافقون</h1>
             </section>
 
-            <form method="post" enctype="multipart/form-data" id="supervisorForm">
-                <label for="upload-pic"><i class="fa-solid fa-arrow-up-from-bracket"></i> إرفع صورة</label>
-                <input name="image" type="file" id="upload-pic" style="display: none;">
-                <input type="text" name="name" id="supervisor_name" placeholder="إسم المرافق" required>
-                <input type="text" name="n_id" id="supervisor_id" placeholder="ب.ت.و" required>
-                <input type="text" name="passport_number" id="passport_number" placeholder="رقم جواز السفر" required>
-                <input type="tel" name="moroccan_tel" id="moroccan_tel" pattern="[0-9]{10}"
-                    placeholder="رقم الهاتف المغربي">
-                <input type="tel" name="saudi_tel" id="saudi_tel" pattern="[0-9]{10}" placeholder="رقم الهاتف السعودي">
-                <div></div>
-                <button type="submit"><i class="fa-solid fa-plus"></i>أضف مرافق</button>
-                <!-- <input type="submit" value="أضف مرافق"> -->
-            </form>
-            <%- include('partials/print.ejs') %>
-                <section>
-                    <table id="main_table">
-                        <thead>
-                            <tr>
-                                <th>الصورة الشخصية</th>
-                                <th>الإسم</th>
-                                <th>رقم البطاقة الوطنية</th>
-                                <th>جواز السفر</th>
-                                <th>الهاتف المغربي</th>
-                                <th>الهاتف السعودي</th>
+            <form method=" post" enctype="multipart/form-data" id="supervisorForm">
+                    <label for="upload-pic"><i class="fa-solid fa-arrow-up-from-bracket"></i> إرفع صورة</label>
+                    <input name="image" type="file" id="upload-pic" style="display: none;">
+                    <input type="text" name="name" id="supervisor_name" placeholder="إسم المرافق" required>
+                    <input type="text" name="n_id" id="supervisor_id" placeholder="ب.ت.و" required>
+                    <input type="text" name="passport_number" id="passport_number" placeholder="رقم جواز السفر"
+                        required>
+                    <input type="tel" name="moroccan_tel" id="moroccan_tel" pattern="[0-9]{10}"
+                        placeholder="رقم الهاتف المغربي">
+                    <input type="tel" name="saudi_tel" id="saudi_tel" pattern="^(05\d{8}|\+9665\d{8}|009665\d{8})$"
+                        placeholder="رقم الهاتف السعودي">
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% supervisors.forEach(function(supervisor){ %>
-                                <tr id="row-<%= supervisor._id %>">
-                                    <td class="image">
-                                        <img src="<%= supervisor.image %>" alt="img">
-                                    </td>
-                                    <td class="name">
-                                        <%= supervisor.name %>
-                                    </td>
-                                    <td class="n_id">
-                                        <%= supervisor.n_id %>
-                                    </td>
-                                    <td id="passport_number">
-                                        <%= supervisor.passport_number %>
-                                    </td>
-                                    <td id="moroccan_tel">
+                    <div></div>
+                    <button type="submit"><i class="fa-solid fa-plus"></i>أضف مرافق</button>
+                    <!-- <input type="submit" value="أضف مرافق"> -->
+                    </form>
+                    <%- include('partials/print.ejs') %>
+                        <section>
+                            <table id="main_table">
+                                <thead>
+                                    <tr>
+                                        <th>الصورة الشخصية</th>
+                                        <th>الإسم</th>
+                                        <th>رقم البطاقة الوطنية</th>
+                                        <th>جواز السفر</th>
+                                        <th>الهاتف المغربي</th>
+                                        <th>الهاتف السعودي</th>
 
-                                        <%= supervisor.moroccan_tel %>
-                                    </td>
-                                    <td id="saudi_tel">
-                                        <%= supervisor.saudi_tel %>
-                                    </td>
-                                    <td>
-                                        <button class="edit-btn btn" type="button"
-                                            onclick="EditSupervisor('<%= supervisor._id %>')"><i
-                                                class="fa-regular fa-pen-to-square"></i></button>
-                                        <button type="button" class="btn"
-                                            onclick="DeleteSupervisor('<%= supervisor._id %>')"><i
-                                                class="fa-regular fa-trash-can"></i></button>
-                                        <button class="confirm-btn btn" type="button"
-                                            onclick="ConfirmEdit('<%= supervisor._id %>')" style="display: none;"><i
-                                                class="fa-regular fa-square-check"></i></button>
-                                    </td>
-                                </tr>
-                                <% }) %>
-                        </tbody>
-                    </table>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% supervisors.forEach(function(supervisor){ %>
+                                        <tr id="row-<%= supervisor._id %>">
+                                            <td class="image">
+                                                <img src="<%= supervisor.image %>" alt="img">
+                                            </td>
+                                            <td class="name">
+                                                <%= supervisor.name %>
+                                            </td>
+                                            <td class="n_id">
+                                                <%= supervisor.n_id %>
+                                            </td>
+                                            <td id="passport_number">
+                                                <%= supervisor.passport_number %>
+                                            </td>
+                                            <td id="moroccan_tel">
 
-                </section>
+                                                <%= supervisor.moroccan_tel %>
+                                            </td>
+                                            <td id="saudi_tel">
+                                                <%= supervisor.saudi_tel %>
+                                            </td>
+                                            <td>
+                                                <button class="edit-btn btn" type="button"
+                                                    onclick="EditSupervisor('<%= supervisor._id %>')"><i
+                                                        class="fa-regular fa-pen-to-square"></i></button>
+                                                <button type="button" class="btn"
+                                                    onclick="DeleteSupervisor('<%= supervisor._id %>')"><i
+                                                        class="fa-regular fa-trash-can"></i></button>
+                                                <button class="confirm-btn btn" type="button"
+                                                    onclick="ConfirmEdit('<%= supervisor._id %>')"
+                                                    style="display: none;"><i
+                                                        class="fa-regular fa-square-check"></i></button>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                </tbody>
+                            </table>
+
+                        </section>
         </main>
         <script src="/js/supervisor.js"></script>
 </body>
@@ -107,8 +111,10 @@
             border-collapse: collapse !important;
         }
 
- 
-        table td:last-child, td:first-child, th:first-child {
+
+        table td:last-child,
+        td:first-child,
+        th:first-child {
             display: none !important;
         }
 
